@@ -54,7 +54,6 @@ Page({
 
     if (index >= 0) {
       selectedOptions.splice(index, 1);
-      delete selectedMap[tag];
     } else {
       selectedOptions.push(tag);
     }
@@ -99,7 +98,7 @@ Page({
     });
 
     wx.setStorageSync("currentTask", task);
-    wx.navigateTo({
+    wx.redirectTo({
       url: "/pages/processing/processing?mode=initial"
     });
   }

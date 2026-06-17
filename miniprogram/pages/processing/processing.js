@@ -3,16 +3,16 @@ const { completeTask, completeAdjustment } = require("../../utils/mock-data");
 Page({
   data: {
     mode: "initial",
-    statusTitle: "正在生成处理方案",
-    statusDesc: "系统正在模拟 AI 理解、任务卡和处理结果。"
+    statusTitle: "正在处理照片",
+    statusDesc: "正在根据你的选择准备处理结果，请稍等片刻。"
   },
 
   onLoad(options) {
     const mode = options.mode || "initial";
     this.setData({
       mode,
-      statusTitle: mode === "adjustment" ? "正在生成调整方案" : "正在生成处理方案",
-      statusDesc: mode === "adjustment" ? "系统正在模拟二次调整结果。" : "系统正在模拟 AI 理解、任务卡和处理结果。"
+      statusTitle: mode === "adjustment" ? "正在调整结果" : "正在处理照片",
+      statusDesc: mode === "adjustment" ? "正在根据你的反馈优化结果，请稍等片刻。" : "正在根据你的选择准备处理结果，请稍等片刻。"
     });
 
     const task = wx.getStorageSync("currentTask");

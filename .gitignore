@@ -23,6 +23,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# WeChat DevTools local settings
+miniprogram/project.private.config.json
+
 # Logs and temp files
 *.log
 *.tmp

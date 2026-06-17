@@ -1,7 +1,7 @@
 <view class="page">
   <view class="eyebrow">选择服务</view>
   <view class="title">你想先处理哪一类照片？</view>
-  <view class="subtitle">第一版先用本地 mock 结果跑通流程，适合验证小程序体验。</view>
+  <view class="subtitle">先选择照片类型，下一步再上传照片并补充处理偏好。</view>
 
   <view class="stack">
     <block wx:for="{{services}}" wx:key="id">

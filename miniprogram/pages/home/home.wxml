@@ -1,19 +1,33 @@
 <view class="page home-page">
   <view class="eyebrow">AI 家庭纪念影像助手</view>
-  <view class="title">让旧照片重新变得清楚、自然、值得保存</view>
-  <view class="subtitle">选择服务，上传照片，补充你的期待。系统会先模拟生成处理结果，后续可接入真实图像 API。</view>
+  <view class="title">帮珍贵照片恢复清晰，也保留原本的记忆感</view>
+  <view class="subtitle">选择服务、上传照片、补充偏好，先获得一版处理结果。不满意的地方，还可以继续提出调整。</view>
 
-  <view class="preview-grid">
-    <image class="preview-image large" src="/assets/mock/old_before.png" mode="aspectFill" />
-    <image class="preview-image" src="/assets/mock/old_after.png" mode="aspectFill" />
-    <image class="preview-image" src="/assets/mock/color_after.png" mode="aspectFill" />
+  <view class="preview-pair">
+    <view class="preview-item">
+      <image class="preview-image" src="/assets/mock/old_before.png" mode="aspectFill" />
+      <view class="preview-label">处理前</view>
+    </view>
+    <view class="preview-item">
+      <image class="preview-image" src="/assets/mock/old_after.png" mode="aspectFill" />
+      <view class="preview-label">处理后</view>
+    </view>
   </view>
 
-  <view class="section-title">可以先体验这些服务</view>
-  <view class="service-strip">
-    <view class="mini-card">老照片修复</view>
-    <view class="mini-card">黑白照片上色</view>
-    <view class="mini-card">纪念照生成</view>
+  <view class="section-title">当前支持</view>
+  <view class="service-list">
+    <view class="service-line">
+      <view class="dot"></view>
+      <view>老照片修复</view>
+    </view>
+    <view class="service-line">
+      <view class="dot"></view>
+      <view>黑白照片上色</view>
+    </view>
+    <view class="service-line">
+      <view class="dot"></view>
+      <view>纪念照生成</view>
+    </view>
   </view>
 
   <view class="spacer"></view>

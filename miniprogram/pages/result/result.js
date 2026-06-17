@@ -3,7 +3,7 @@ Page({
     task: {},
     isAdjusted: false,
     pageTitle: "处理结果已生成",
-    pageSubtitle: "下面是原图和模拟处理结果。你也可以提交二次调整需求。",
+    pageSubtitle: "下面是原图和处理后的效果。你也可以提交二次调整需求。",
     leftImage: "",
     rightImage: "",
     leftLabel: "原图",
@@ -19,7 +19,7 @@ Page({
     }
 
     const isAdjusted = options.mode === "adjusted";
-    const leftImage = isAdjusted ? task.resultImageUrl : task.originalImageUrl;
+    const leftImage = task.originalImageUrl;
     const rightImage = isAdjusted ? task.adjustedImageUrl : task.resultImageUrl;
     const issueText = task.issueTags && task.issueTags.length ? task.issueTags.join("、") : "整体微调";
     const requirement = task.adjustmentRequirement || "让结果更自然";
@@ -28,11 +28,11 @@ Page({
       task,
       isAdjusted,
       pageTitle: isAdjusted ? "调整完成" : "处理结果已生成",
-      pageSubtitle: isAdjusted ? "下面是调整前后对比，可以继续保存或重新开始。" : "下面是原图和模拟处理结果。你也可以提交二次调整需求。",
+      pageSubtitle: isAdjusted ? "这是根据你的反馈调整后的最终效果。" : "下面是原图和处理后的效果。你也可以提交二次调整需求。",
       leftImage,
       rightImage,
-      leftLabel: isAdjusted ? "调整前" : "原图",
-      rightLabel: isAdjusted ? "调整后" : "效果图",
+      leftLabel: "原图",
+      rightLabel: isAdjusted ? "最终结果" : "效果图",
       adjustmentSummary: `${issueText}；${requirement}`
     });
   },

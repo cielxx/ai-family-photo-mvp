@@ -28,8 +28,8 @@
 
   <view class="auth-row" bindtap="toggleAuthorization">
     <view class="checkbox {{authorizationConfirmed ? 'checked' : ''}}"></view>
-    <view class="auth-text">我确认已获得照片中人物或家人的使用授权</view>
+    <view class="auth-text">我确认已获得照片中人物的使用授权</view>
   </view>
 
-  <button class="primary-button" disabled="{{!canSubmit}}" bindtap="submitTask">生成处理方案</button>
+  <button class="primary-button" disabled="{{!canSubmit}}" bindtap="submitTask">开始处理照片</button>
 </view>

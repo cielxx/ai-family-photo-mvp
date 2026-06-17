@@ -14,7 +14,7 @@
     </view>
   </view>
 
-  <view class="section-title">AI 处理摘要</view>
+  <view class="section-title">处理说明</view>
   <view class="card summary-card">
     <view class="summary-line">{{task.taskCard}}</view>
     <view wx:if="{{isAdjusted}}" class="summary-line adjust-line">二次调整：{{adjustmentSummary}}</view>

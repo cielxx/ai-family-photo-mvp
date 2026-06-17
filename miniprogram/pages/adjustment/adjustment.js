@@ -26,7 +26,6 @@ Page({
 
     if (index >= 0) {
       selectedIssues.splice(index, 1);
-      delete selectedMap[tag];
     } else {
       selectedIssues.push(tag);
     }
@@ -63,7 +62,7 @@ Page({
     });
 
     wx.setStorageSync("currentTask", nextTask);
-    wx.navigateTo({
+    wx.redirectTo({
       url: "/pages/processing/processing?mode=adjustment"
     });
   }
