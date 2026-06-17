@@ -1,0 +1,142 @@
+page {
+  background: #fbf7ef;
+  color: #1f2937;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+}
+
+.page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 40rpx 32rpx 64rpx;
+}
+
+.eyebrow {
+  color: #5b9a96;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 0;
+  margin-bottom: 14rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 1.18;
+  margin-bottom: 18rpx;
+}
+
+.subtitle {
+  color: #5f6b7a;
+  font-size: 28rpx;
+  line-height: 1.65;
+  margin-bottom: 32rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  margin: 36rpx 0 18rpx;
+}
+
+.card {
+  background: #fffdf8;
+  border: 1rpx solid rgba(91, 154, 150, 0.16);
+  border-radius: 16rpx;
+  box-shadow: 0 14rpx 36rpx rgba(49, 65, 82, 0.08);
+  box-sizing: border-box;
+  padding: 28rpx;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  align-items: center;
+  border-radius: 999rpx;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 30rpx;
+  font-weight: 700;
+  height: 92rpx;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  padding: 0 32rpx;
+}
+
+.primary-button {
+  background: #5b9a96;
+  color: #ffffff;
+}
+
+.primary-button[disabled] {
+  background: #b8cbc8;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.secondary-button {
+  background: #efe8db;
+  color: #2f4f4d;
+}
+
+.ghost-button {
+  background: transparent;
+  border: 1rpx solid #d9d1c5;
+  color: #40505f;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.pill {
+  background: #f4efe6;
+  border: 1rpx solid transparent;
+  border-radius: 999rpx;
+  color: #4d5967;
+  font-size: 26rpx;
+  padding: 16rpx 22rpx;
+}
+
+.pill.active {
+  background: #e1f0ed;
+  border-color: #5b9a96;
+  color: #255855;
+  font-weight: 700;
+}
+
+.textarea {
+  background: #fffdf8;
+  border: 1rpx solid #e2dbd0;
+  border-radius: 14rpx;
+  box-sizing: border-box;
+  color: #1f2937;
+  font-size: 28rpx;
+  min-height: 190rpx;
+  padding: 22rpx;
+  width: 100%;
+}
+
+.image {
+  background: #efe8db;
+  border-radius: 14rpx;
+  display: block;
+  width: 100%;
+}
+
+.muted {
+  color: #7a8491;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.spacer {
+  height: 28rpx;
+}

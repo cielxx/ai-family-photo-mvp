@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/service/service",
+    "pages/upload/upload",
+    "pages/processing/processing",
+    "pages/result/result",
+    "pages/adjustment/adjustment"
+  ],
+  "window": {
+    "navigationBarTitleText": "家庭纪念影像助手",
+    "navigationBarBackgroundColor": "#FBF7EF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FBF7EF"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

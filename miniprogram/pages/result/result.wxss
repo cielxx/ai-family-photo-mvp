@@ -1,0 +1,35 @@
+.compare-grid {
+  display: grid;
+  gap: 18rpx;
+  grid-template-columns: 1fr 1fr;
+}
+
+.compare-item {
+  min-width: 0;
+}
+
+.result-image {
+  height: 360rpx;
+}
+
+.compare-label {
+  color: #5f6b7a;
+  font-size: 24rpx;
+  margin-top: 12rpx;
+  text-align: center;
+}
+
+.summary-card {
+  color: #3d4a55;
+  font-size: 26rpx;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.summary-line + .summary-line {
+  margin-top: 18rpx;
+}
+
+.adjust-line {
+  color: #255855;
+}

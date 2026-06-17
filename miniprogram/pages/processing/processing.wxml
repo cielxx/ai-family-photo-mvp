@@ -1,0 +1,7 @@
+<view class="page processing-page">
+  <view class="status-card">
+    <view class="loader"></view>
+    <view class="status-title">{{statusTitle}}</view>
+    <view class="status-desc">{{statusDesc}}</view>
+  </view>
+</view>

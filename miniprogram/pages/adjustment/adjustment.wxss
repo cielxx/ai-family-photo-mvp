@@ -1,0 +1,4 @@
+.current-image {
+  height: 520rpx;
+  margin-top: 8rpx;
+}

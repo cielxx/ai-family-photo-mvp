@@ -1,0 +1,51 @@
+.processing-page {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.status-card {
+  align-items: center;
+  background: #fffdf8;
+  border-radius: 18rpx;
+  box-shadow: 0 14rpx 36rpx rgba(49, 65, 82, 0.08);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 56rpx 38rpx;
+  text-align: center;
+  width: 100%;
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+  border: 8rpx solid #e8dfd3;
+  border-radius: 50%;
+  border-top-color: #5b9a96;
+  height: 86rpx;
+  margin-bottom: 32rpx;
+  width: 86rpx;
+}
+
+.status-title {
+  color: #263b39;
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.status-desc {
+  color: #65717f;
+  font-size: 27rpx;
+  line-height: 1.6;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

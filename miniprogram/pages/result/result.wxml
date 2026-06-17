@@ -1,0 +1,29 @@
+<view class="page">
+  <view class="eyebrow">{{task.serviceName}}</view>
+  <view class="title">{{pageTitle}}</view>
+  <view class="subtitle">{{pageSubtitle}}</view>
+
+  <view class="compare-grid">
+    <view class="compare-item">
+      <image class="image result-image" src="{{leftImage}}" mode="aspectFill" />
+      <view class="compare-label">{{leftLabel}}</view>
+    </view>
+    <view class="compare-item">
+      <image class="image result-image" src="{{rightImage}}" mode="aspectFill" />
+      <view class="compare-label">{{rightLabel}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">AI 处理摘要</view>
+  <view class="card summary-card">
+    <view class="summary-line">{{task.taskCard}}</view>
+    <view wx:if="{{isAdjusted}}" class="summary-line adjust-line">二次调整：{{adjustmentSummary}}</view>
+  </view>
+
+  <view class="spacer"></view>
+  <view class="stack">
+    <button class="primary-button" bindtap="saveImage">保存效果图</button>
+    <button wx:if="{{!isAdjusted}}" class="secondary-button" bindtap="goToAdjustment">我想调整</button>
+    <button class="ghost-button" bindtap="restart">重新开始</button>
+  </view>
+</view>

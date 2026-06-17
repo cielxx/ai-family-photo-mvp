@@ -1,0 +1,33 @@
+.service-card {
+  align-items: center;
+  display: flex;
+  gap: 24rpx;
+  justify-content: space-between;
+}
+
+.service-name {
+  color: #233634;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-bottom: 12rpx;
+}
+
+.service-desc {
+  color: #65717f;
+  font-size: 25rpx;
+  line-height: 1.55;
+}
+
+.service-action {
+  align-items: center;
+  background: #e1f0ed;
+  border-radius: 999rpx;
+  color: #255855;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 24rpx;
+  font-weight: 700;
+  height: 60rpx;
+  justify-content: center;
+  width: 92rpx;
+}

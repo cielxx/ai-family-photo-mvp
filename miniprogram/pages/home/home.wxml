@@ -1,0 +1,21 @@
+<view class="page home-page">
+  <view class="eyebrow">AI 家庭纪念影像助手</view>
+  <view class="title">让旧照片重新变得清楚、自然、值得保存</view>
+  <view class="subtitle">选择服务，上传照片，补充你的期待。系统会先模拟生成处理结果，后续可接入真实图像 API。</view>
+
+  <view class="preview-grid">
+    <image class="preview-image large" src="/assets/mock/old_before.png" mode="aspectFill" />
+    <image class="preview-image" src="/assets/mock/old_after.png" mode="aspectFill" />
+    <image class="preview-image" src="/assets/mock/color_after.png" mode="aspectFill" />
+  </view>
+
+  <view class="section-title">可以先体验这些服务</view>
+  <view class="service-strip">
+    <view class="mini-card">老照片修复</view>
+    <view class="mini-card">黑白照片上色</view>
+    <view class="mini-card">纪念照生成</view>
+  </view>
+
+  <view class="spacer"></view>
+  <button class="primary-button" bindtap="goToService">开始制作</button>
+</view>

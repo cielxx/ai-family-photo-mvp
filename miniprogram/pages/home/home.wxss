@@ -1,0 +1,38 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-grid {
+  display: grid;
+  gap: 16rpx;
+  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-rows: 190rpx 190rpx;
+  margin: 18rpx 0 10rpx;
+}
+
+.preview-image {
+  border-radius: 18rpx;
+  height: 100%;
+  width: 100%;
+}
+
+.preview-image.large {
+  grid-row: span 2;
+}
+
+.service-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.mini-card {
+  background: #fffdf8;
+  border: 1rpx solid rgba(91, 154, 150, 0.18);
+  border-radius: 14rpx;
+  color: #2f4f4d;
+  font-size: 28rpx;
+  font-weight: 700;
+  padding: 24rpx 26rpx;
+}
