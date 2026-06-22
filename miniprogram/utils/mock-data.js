@@ -37,7 +37,7 @@ const serviceList = [
   services.memorial_portrait
 ];
 
-const issueTags = ["不够清晰", "肤色不自然", "过度美化", "失去年代感", "背景不合适"];
+const issueTags = ["人脸修得不像了", "修复痕迹太重", "皮肤太平滑", "照片失去年代感", "仍然不够清晰", "背景处理不自然"];
 
 function getService(serviceType) {
   return services[serviceType] || services.old_photo_restoration;
@@ -69,6 +69,15 @@ function completeTask(task) {
   return {
     ...task,
     status: "completed",
+    updatedAt: new Date().toISOString()
+  };
+}
+
+function regenerateTask(task) {
+  return {
+    ...task,
+    status: "processing",
+    regenerateCount: (task.regenerateCount || 0) + 1,
     updatedAt: new Date().toISOString()
   };
 }
@@ -121,6 +130,7 @@ module.exports = {
   getService,
   createTask,
   completeTask,
+  regenerateTask,
   createAdjustment,
   completeAdjustment
 };

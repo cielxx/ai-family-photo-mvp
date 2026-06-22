@@ -6,7 +6,12 @@ Page({
     issueOptions: issueTags.map((name) => ({ name, active: false })),
     selectedIssues: [],
     adjustmentRequirement: "",
-    canSubmit: false
+    requirementCount: 0,
+    canSubmit: false,
+    compareLabels: {
+      before: "修复前",
+      after: "修复后"
+    }
   },
 
   onLoad() {
@@ -16,7 +21,31 @@ Page({
       return;
     }
 
-    this.setData({ task });
+    this.setData({
+      task,
+      compareLabels: this.getCompareLabels(task.serviceType)
+    });
+  },
+
+  getCompareLabels(serviceType) {
+    if (serviceType === "black_white_colorization") {
+      return {
+        before: "上色前",
+        after: "上色后"
+      };
+    }
+
+    if (serviceType === "memorial_portrait") {
+      return {
+        before: "生成前",
+        after: "生成后"
+      };
+    }
+
+    return {
+      before: "修复前",
+      after: "修复后"
+    };
   },
 
   toggleIssue(event) {
@@ -42,7 +71,8 @@ Page({
 
   onRequirementInput(event) {
     this.setData({
-      adjustmentRequirement: event.detail.value
+      adjustmentRequirement: event.detail.value,
+      requirementCount: event.detail.value.length
     });
     this.updateSubmitState();
   },
@@ -65,5 +95,9 @@ Page({
     wx.redirectTo({
       url: "/pages/processing/processing?mode=adjustment"
     });
+  },
+
+  goBack() {
+    wx.navigateBack();
   }
 });

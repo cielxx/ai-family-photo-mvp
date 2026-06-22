@@ -1,29 +1,120 @@
-<view class="page">
-  <view class="eyebrow">{{task.serviceName}}</view>
-  <view class="title">{{pageTitle}}</view>
-  <view class="subtitle">{{pageSubtitle}}</view>
-
-  <view class="compare-grid">
-    <view class="compare-item">
-      <image class="image result-image" src="{{leftImage}}" mode="aspectFill" />
-      <view class="compare-label">{{leftLabel}}</view>
-    </view>
-    <view class="compare-item">
-      <image class="image result-image" src="{{rightImage}}" mode="aspectFill" />
-      <view class="compare-label">{{rightLabel}}</view>
+<view class="page result-page {{isAdjusted ? 'adjusted' : ''}}">
+  <view class="result-nav">
+    <view class="back-button" bindtap="goBack"></view>
+    <view class="service-chip">
+      <text>当前选择：</text>
+      <text class="service-chip-name">{{task.serviceName}}</text>
     </view>
   </view>
 
-  <view class="section-title">处理说明</view>
-  <view class="card summary-card">
-    <view class="summary-line">{{task.taskCard}}</view>
-    <view wx:if="{{isAdjusted}}" class="summary-line adjust-line">二次调整：{{adjustmentSummary}}</view>
+  <view class="result-title">{{pageTitle}}</view>
+  <view class="result-copy">
+    <view>{{pageSubtitle}}</view>
+    <view>{{resultHint}}</view>
   </view>
 
-  <view class="spacer"></view>
-  <view class="stack">
-    <button class="primary-button" bindtap="saveImage">保存效果图</button>
-    <button wx:if="{{!isAdjusted}}" class="secondary-button" bindtap="goToAdjustment">我想调整</button>
-    <button class="ghost-button" bindtap="restart">重新开始</button>
+  <view class="compare-photo-card">
+    <view class="split-compare">
+      <view class="split-image left">
+        <image src="{{leftImage}}" mode="aspectFill" />
+        <view class="image-badge dark">{{leftLabel}}</view>
+      </view>
+      <view class="split-image right">
+        <image src="{{rightImage}}" mode="aspectFill" />
+        <view class="image-badge green">{{rightLabel}}</view>
+      </view>
+      <view class="compare-divider"></view>
+      <view class="compare-handle"></view>
+      <view class="paper-corner"></view>
+    </view>
+  </view>
+
+  <view wx:if="{{!isAdjusted}}" class="explain-card">
+    <view class="card-heading">
+      <view class="heading-icon lines"></view>
+      <view>本次处理说明</view>
+      <view class="heading-rule"></view>
+    </view>
+    <view class="explain-list">
+      <block wx:for="{{completionItems}}" wx:key="*this">
+        <view class="explain-row">
+          <view class="check-dot"></view>
+          <view>{{item}}</view>
+        </view>
+      </block>
+    </view>
+    <view class="mini-photo-card"></view>
+  </view>
+
+  <view wx:if="{{!isAdjusted}}" class="feedback-card">
+    <view class="heart-bubble"></view>
+    <view>
+      <view class="feedback-title">你觉得这次结果如何？</view>
+      <view class="feedback-desc">如果仍有不满意的地方，可以继续调整。</view>
+    </view>
+  </view>
+
+  <view wx:if="{{isAdjusted}}" class="adjusted-feedback-card">
+    <view class="adjusted-section-title">你的反馈</view>
+    <view class="feedback-tags">
+      <block wx:for="{{adjustedFeedbackTags}}" wx:key="*this">
+        <view class="feedback-tag">
+          <view class="tag-dot"></view>
+          <text>{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view wx:if="{{isAdjusted}}" class="adjusted-summary-card">
+    <view class="card-heading">
+      <view class="heading-icon lines"></view>
+      <view>本次调整重点</view>
+      <view class="heading-rule"></view>
+    </view>
+    <view class="adjusted-focus-list">
+      <block wx:for="{{adjustedFocusItems}}" wx:key="*this">
+        <view class="adjusted-focus-row">
+          <view class="check-dot small"></view>
+          <view>{{item}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view wx:if="{{isAdjusted}}" class="adjusted-note-card">
+    <view class="note-icon"></view>
+    <view>
+      <view>此次调整已尽量保留满意部分</view>
+      <view class="note-desc">如果还有其他问题，可以再次告诉我们</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!isAdjusted}}" class="result-actions">
+    <view class="primary-result-action {{isSaved ? 'saved' : ''}}" bindtap="handlePrimaryAction">
+      <text>{{isSaved ? '返回首页' : '保存结果'}}</text>
+    </view>
+    <view class="two-actions">
+      <view class="outline-result-action half" bindtap="restart">
+        <text>重新生成</text>
+      </view>
+      <view class="outline-result-action half" bindtap="goToAdjustment">
+        <text>继续调整</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="result-actions adjusted-actions">
+    <view class="primary-result-action {{isSaved ? 'saved' : ''}}" bindtap="handlePrimaryAction">
+      <text>{{isSaved ? '返回首页' : '保存结果'}}</text>
+    </view>
+    <view class="two-actions {{isSaved ? 'single' : ''}}">
+      <view class="outline-result-action half" bindtap="goToAdjustment">
+        <text>再次调整</text>
+      </view>
+      <view wx:if="{{!isSaved}}" class="outline-result-action half" bindtap="goHome">
+        <text>返回首页</text>
+      </view>
+    </view>
   </view>
 </view>

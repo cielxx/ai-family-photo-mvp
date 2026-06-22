@@ -1,35 +1,98 @@
-<view class="page">
-  <view class="eyebrow">{{service.shortName}}</view>
-  <view class="title">{{service.name}}</view>
-  <view class="subtitle">{{service.description}}</view>
-
-  <view class="section-title">上传照片</view>
-  <view class="card upload-card">
-    <image wx:if="{{imageUrl}}" class="image upload-preview" src="{{imageUrl}}" mode="aspectFill" />
-    <view wx:else class="empty-upload">
-      <view class="empty-title">还没有选择照片</view>
-      <view class="muted">可以从相册选择，也可以先用示例照片体验流程。</view>
-    </view>
-    <view class="button-row">
-      <button class="secondary-button half-button" bindtap="chooseImage">选择照片</button>
-      <button class="ghost-button half-button" bindtap="useSample">示例照片</button>
+<view class="page upload-page">
+  <view class="upload-nav">
+    <view class="back-button" bindtap="goBack"></view>
+    <view class="service-chip">
+      <text>当前选择：</text>
+      <text class="service-chip-name">{{service.name}}</text>
     </view>
   </view>
 
-  <view class="section-title">处理重点</view>
-  <view class="pill-row">
-    <block wx:for="{{optionTags}}" wx:key="name">
-      <view class="pill {{item.active ? 'active' : ''}}" data-tag="{{item.name}}" bindtap="toggleTag">{{item.name}}</view>
-    </block>
+  <view class="upload-title">{{imageUrl ? '可进行需求补充' : uploadTitle}}</view>
+  <view class="upload-copy">
+    <view>{{imageUrl ? serviceGuideLineOne : uploadGuideLineOne}}</view>
+    <view>{{imageUrl ? serviceGuideLineTwo : uploadGuideLineTwo}}</view>
   </view>
 
-  <view class="section-title">补充说明</view>
-  <textarea class="textarea" maxlength="160" placeholder="例如：希望保留年代感，不要磨皮过度" value="{{customRequirement}}" bindinput="onRequirementInput"></textarea>
+  <view class="photo-card {{imageUrl ? 'uploaded' : 'empty'}}">
+    <image wx:if="{{imageUrl}}" class="upload-preview" src="{{imageUrl}}" mode="aspectFill" />
+    <view wx:else class="empty-upload" bindtap="chooseImage">
+      <view class="empty-upload-icon"></view>
+      <view class="empty-title">点击选择并上传照片</view>
+      <view class="empty-desc">支持 JPG / JPEG / PNG / WEBP</view>
+      <view class="empty-desc">文件大小不超过10MB</view>
+      <view class="sample-button" catchtap="useSample">使用示例照片</view>
+    </view>
 
-  <view class="auth-row" bindtap="toggleAuthorization">
+    <view wx:if="{{imageUrl}}" class="photo-status-row {{validationStatus}}">
+      <view class="status-check {{validationStatus}}"></view>
+      <view class="status-text">{{validationMessage}}</view>
+      <view class="change-photo" bindtap="changePhoto">更换照片 <text>›</text></view>
+    </view>
+  </view>
+
+  <view wx:if="{{!imageUrl}}" class="photo-guidance-card">
+    <view class="guidance-title">上传提示</view>
+    <view class="guidance-row">
+      <view class="guidance-icon image-icon"></view>
+      <view>上传一张你想处理的照片</view>
+    </view>
+    <view class="guidance-row">
+      <view class="guidance-icon sparkle-icon"></view>
+      <view>{{uploadTipLineTwo}}</view>
+    </view>
+    <view class="guidance-row">
+      <view class="guidance-icon user-icon"></view>
+      <view>人物主体尽量清晰可见</view>
+    </view>
+    <view class="guidance-row">
+      <view class="guidance-icon warning-icon"></view>
+      <view>如果五官缺失严重，处理结果可能存在偏差</view>
+    </view>
+  </view>
+
+  <view wx:if="{{imageUrl}}" class="requirement-card">
+    <view class="requirement-title">处理需求（可选）</view>
+
+    <view class="requirement-group">
+      <view class="requirement-label">希望改善</view>
+      <view class="tag-wrap">
+        <block wx:for="{{improveTags}}" wx:key="name">
+          <view class="upload-tag {{item.active ? 'active' : ''}}" data-tag="{{item.name}}" bindtap="toggleTag">
+            <text>{{item.name}}</text>
+            <text wx:if="{{item.active}}" class="tag-check">✓</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="requirement-group">
+      <view class="requirement-label">希望保留/避免</view>
+      <view class="tag-wrap">
+        <block wx:for="{{avoidTags}}" wx:key="name">
+          <view class="upload-tag {{item.active ? 'active' : ''}}" data-tag="{{item.name}}" bindtap="toggleTag">
+            <text>{{item.name}}</text>
+            <text wx:if="{{item.active}}" class="tag-check">✓</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="requirement-label">补充说明</view>
+    <view class="textarea-shell">
+      <textarea class="upload-textarea" maxlength="100" placeholder="例如：希望修复左上角的折痕，不要太过锐化" value="{{customRequirement}}" bindinput="onRequirementInput"></textarea>
+      <view class="textarea-count">{{requirementCount}}/100</view>
+    </view>
+  </view>
+
+  <view class="privacy-card {{imageUrl ? '' : 'empty-state'}}" bindtap="toggleAuthorization">
+    <view class="shield-icon"></view>
+    <view class="privacy-copy">
+      <view class="privacy-title">照片仅用于本次处理</view>
+      <view class="privacy-desc">我确认已获得照片中人物授权</view>
+    </view>
     <view class="checkbox {{authorizationConfirmed ? 'checked' : ''}}"></view>
-    <view class="auth-text">我确认已获得照片中人物的使用授权</view>
   </view>
 
-  <button class="primary-button" disabled="{{!canSubmit}}" bindtap="submitTask">开始处理照片</button>
+  <view wx:if="{{imageUrl}}" class="submit-button {{canSubmit ? '' : 'disabled'}}" bindtap="submitTask">{{validationStatus === 'fail' ? '更换照片后继续' : '开始处理'}}</view>
+  <view wx:else class="submit-button disabled">上传后继续</view>
 </view>

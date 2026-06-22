@@ -1,35 +1,121 @@
 <view class="page home-page">
-  <view class="eyebrow">AI 家庭纪念影像助手</view>
-  <view class="title">帮珍贵照片恢复清晰，也保留原本的记忆感</view>
-  <view class="subtitle">选择服务、上传照片、补充偏好，先获得一版处理结果。不满意的地方，还可以继续提出调整。</view>
+  <view class="custom-nav">
+    <view class="nav-title">家庭纪念影像助手</view>
+  </view>
 
-  <view class="preview-pair">
-    <view class="preview-item">
-      <image class="preview-image" src="/assets/mock/old_before.png" mode="aspectFill" />
-      <view class="preview-label">处理前</view>
+  <view class="topbar">
+    <view class="brand">时光影像助手</view>
+    <view class="privacy-link">隐私说明</view>
+  </view>
+
+  <view class="hero-title">
+    <view>把家里的旧照片</view>
+    <view>温柔地整理好</view>
+  </view>
+
+  <view class="hero-copy">
+    <view>修复模糊与褪色，补上自然色彩</view>
+    <view>也能生成更正式的纪念照</view>
+    <view>尽量保留熟悉的人物特征与年代感</view>
+  </view>
+
+  <view class="trust-row">
+    <view class="trust-pill">
+      <view class="trust-icon trust-user">
+        <view class="icon-user-head"></view>
+        <view class="icon-user-body"></view>
+      </view>
+      <view>保留人物特征</view>
     </view>
-    <view class="preview-item">
-      <image class="preview-image" src="/assets/mock/old_after.png" mode="aspectFill" />
-      <view class="preview-label">处理后</view>
+    <view class="trust-pill">
+      <view class="trust-icon trust-lock">
+        <view class="icon-lock-shackle"></view>
+        <view class="icon-lock-body"></view>
+      </view>
+      <view>不公开展示</view>
+    </view>
+    <view class="trust-pill">
+      <view class="trust-icon trust-sliders">
+        <view class="icon-slider-line top"></view>
+        <view class="icon-slider-line middle"></view>
+        <view class="icon-slider-line bottom"></view>
+      </view>
+      <view>可二次调整</view>
     </view>
   </view>
 
-  <view class="section-title">当前支持</view>
-  <view class="service-list">
-    <view class="service-line">
-      <view class="dot"></view>
-      <view>老照片修复</view>
-    </view>
-    <view class="service-line">
-      <view class="dot"></view>
-      <view>黑白照片上色</view>
-    </view>
-    <view class="service-line">
-      <view class="dot"></view>
-      <view>纪念照生成</view>
-    </view>
+  <view class="hero-preview">
+    <image class="hero-image hero-before" src="/assets/mock/old_before.png" mode="aspectFill" />
+    <image class="hero-image hero-after" src="/assets/mock/old_after.png" mode="aspectFill" />
+    <view class="hero-label before">修复前</view>
+    <view class="hero-label after">修复后</view>
   </view>
 
-  <view class="spacer"></view>
-  <button class="primary-button" bindtap="goToService">开始制作</button>
+  <view class="service-heading">选择你想处理的照片</view>
+
+  <view class="home-services">
+    <block wx:for="{{services}}" wx:key="id">
+      <view class="home-service-card" data-id="{{item.id}}" bindtap="startService">
+        <image class="service-thumb" src="{{item.homeImage}}" mode="aspectFill" />
+        <view class="service-icon service-icon-{{item.iconType}}">
+          <view class="palette-dot one"></view>
+          <view class="palette-dot two"></view>
+          <view class="palette-dot three"></view>
+          <view class="magic-stick"></view>
+          <view class="magic-spark one"></view>
+          <view class="magic-spark two"></view>
+          <view class="profile-head"></view>
+          <view class="profile-body"></view>
+        </view>
+        <view class="service-text">
+          <view class="service-name">{{item.name}}</view>
+          <view class="service-desc">{{item.homeDescription}}</view>
+        </view>
+        <view class="service-cta">
+          <text>{{item.actionText}}</text>
+          <text class="service-arrow">›</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="steps-card">
+    <view class="steps-title">简单三步完成</view>
+    <view class="steps-row">
+      <view class="step-item">
+        <view class="step-icon step-upload">
+          <view class="upload-tray"></view>
+          <view class="upload-arrow"></view>
+        </view>
+        <view>
+          <view class="step-name">上传照片</view>
+          <view class="step-desc">支持多种格式</view>
+        </view>
+      </view>
+      <view class="step-arrow"></view>
+      <view class="step-item">
+        <view class="step-icon step-sparkles">
+          <view class="step-spark main"></view>
+          <view class="step-spark small top"></view>
+          <view class="step-spark small bottom"></view>
+        </view>
+        <view>
+          <view class="step-name">AI处理</view>
+          <view class="step-desc">智能修复与上色</view>
+        </view>
+      </view>
+      <view class="step-arrow"></view>
+      <view class="step-item">
+        <view class="step-icon step-adjust">
+          <view class="adjust-line top"></view>
+          <view class="adjust-line middle"></view>
+          <view class="adjust-line bottom"></view>
+        </view>
+        <view>
+          <view class="step-name">查看结果</view>
+          <view class="step-desc">保存或继续调整</view>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

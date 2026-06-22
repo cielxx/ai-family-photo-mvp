@@ -1,20 +1,64 @@
-<view class="page">
-  <view class="eyebrow">二次调整</view>
-  <view class="title">哪里还想再自然一点？</view>
-  <view class="subtitle">选择问题标签，也可以补充一句你希望调整的方向。</view>
-
-  <image class="image current-image" src="{{task.resultImageUrl}}" mode="aspectFill" />
-
-  <view class="section-title">问题标签</view>
-  <view class="pill-row">
-    <block wx:for="{{issueOptions}}" wx:key="name">
-      <view class="pill {{item.active ? 'active' : ''}}" data-tag="{{item.name}}" bindtap="toggleIssue">{{item.name}}</view>
-    </block>
+<view class="page adjustment-page">
+  <view class="adjustment-nav">
+    <view class="back-button" bindtap="goBack"></view>
+    <view class="service-chip">
+      <text>当前选择：</text>
+      <text class="service-chip-name">{{task.serviceName}}</text>
+    </view>
   </view>
 
-  <view class="section-title">补充调整说明</view>
-  <textarea class="textarea" maxlength="160" placeholder="例如：希望肤色更自然，背景不要太亮" value="{{adjustmentRequirement}}" bindinput="onRequirementInput"></textarea>
+  <view class="adjustment-title">请选择你的调整需求</view>
+  <view class="adjustment-copy">
+    <view>可以选择调整标签或输入需求</view>
+    <view>我们会尽量保留满意的部分</view>
+  </view>
 
-  <view class="spacer"></view>
-  <button class="primary-button" disabled="{{!canSubmit}}" bindtap="submitAdjustment">提交调整</button>
+  <view class="adjust-compare-card">
+    <view class="split-compare">
+      <view class="split-image left">
+        <image src="{{task.originalImageUrl}}" mode="aspectFill" />
+        <view class="image-badge dark">{{compareLabels.before}}</view>
+      </view>
+      <view class="split-image right">
+        <image src="{{task.resultImageUrl}}" mode="aspectFill" />
+        <view class="image-badge green">{{compareLabels.after}}</view>
+      </view>
+      <view class="compare-divider"></view>
+      <view class="compare-handle"></view>
+      <view class="paper-corner"></view>
+    </view>
+  </view>
+
+  <view class="adjustment-form-card">
+    <view class="form-heading">
+      <view class="sliders-icon"></view>
+      <view>调整需求</view>
+      <view class="heading-rule"></view>
+    </view>
+    <view class="form-label">选择不满意的地方（可多选）</view>
+    <view class="issue-wrap">
+      <block wx:for="{{issueOptions}}" wx:key="name">
+        <view class="issue-tag {{item.active ? 'active' : ''}}" data-tag="{{item.name}}" bindtap="toggleIssue">
+          <text>{{item.name}}</text>
+          <text wx:if="{{item.active}}" class="issue-check">✓</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="form-label text-label">补充说明</view>
+    <view class="adjustment-textarea-shell">
+      <textarea class="adjustment-textarea" maxlength="200" placeholder="例如：希望脸部更自然一些，不要改变眼睛形状" value="{{adjustmentRequirement}}" bindinput="onRequirementInput"></textarea>
+      <view class="textarea-count">{{requirementCount}}/200</view>
+    </view>
+
+  </view>
+
+  <view class="adjustment-actions">
+    <view class="submit-adjustment {{canSubmit ? '' : 'disabled'}}" bindtap="submitAdjustment">
+      <text>开始调整</text>
+    </view>
+    <view class="back-result-action" bindtap="goBack">
+      <text>放弃调整</text>
+    </view>
+  </view>
 </view>

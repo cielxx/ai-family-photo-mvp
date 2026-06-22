@@ -1,7 +1,62 @@
 <view class="page processing-page">
-  <view class="status-card">
-    <view class="loader"></view>
-    <view class="status-title">{{statusTitle}}</view>
-    <view class="status-desc">{{statusDesc}}</view>
+  <view class="process-nav">
+    <view class="back-button" bindtap="goBack"></view>
+    <view class="service-chip">
+      <text>当前选择：</text>
+      <text class="service-chip-name">{{task.serviceName}}</text>
+    </view>
+  </view>
+
+  <view class="process-title">{{statusTitle}}</view>
+  <view class="process-copy">
+    <view>{{statusDescLineOne}}</view>
+    <view>{{statusDescLineTwo}}</view>
+  </view>
+
+  <view class="upload-summary-card">
+    <image class="summary-image" src="{{task.originalImageUrl}}" mode="aspectFill" />
+    <view class="summary-info">
+      <view class="summary-status">
+        <view class="summary-check"></view>
+        <view>已上传</view>
+      </view>
+      <view class="summary-name">{{fileName}}</view>
+      <view class="summary-meta">上传时间：今天 {{uploadTime}}</view>
+      <view class="summary-meta">大小：{{fileSize}}</view>
+    </view>
+  </view>
+
+  <view class="progress-card">
+    <view class="progress-art">
+      <view class="progress-photo"></view>
+      <view class="progress-spark one"></view>
+      <view class="progress-spark two"></view>
+      <view class="progress-spark three"></view>
+    </view>
+    <view class="progress-title">处理进度</view>
+    <view class="progress-list">
+      <block wx:for="{{progressSteps}}" wx:key="name">
+        <view class="progress-row">
+          <view class="progress-marker {{item.state}}"></view>
+          <view class="progress-line" wx:if="{{index < progressSteps.length - 1}}"></view>
+          <view class="progress-name">{{item.name}}</view>
+          <view class="progress-state {{item.state}}">{{item.label}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="wait-card">
+    <view class="timer-icon"></view>
+    <view>
+      <view class="wait-title">预计还需要一点时间，请稍候</view>
+      <view class="wait-desc">处理完成后，你可以查看结果并保存，也可继续调整</view>
+    </view>
+  </view>
+
+  <view class="process-actions">
+    <view class="primary-process-action" bindtap="continueWaiting">继续等待</view>
+    <view class="secondary-process-action" bindtap="viewLater">稍后查看</view>
+    <view class="cancel-action" bindtap="cancelTask">取消任务</view>
   </view>
 </view>

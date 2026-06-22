@@ -3,30 +3,121 @@ const { completeTask, completeAdjustment } = require("../../utils/mock-data");
 Page({
   data: {
     mode: "initial",
-    statusTitle: "正在处理照片",
-    statusDesc: "正在根据你的选择准备处理结果，请稍等片刻。"
+    task: {},
+    fileName: "家庭合影_1993.jpg",
+    fileSize: "2.4MB",
+    uploadTime: "09:21",
+    statusTitle: "正在处理...",
+    statusDescLineOne: "我们正在根据照片状态和你的补充需求进行处理",
+    statusDescLineTwo: "会优先保留人物特征",
+    progressSteps: []
   },
+
+  processingTimer: null,
 
   onLoad(options) {
     const mode = options.mode || "initial";
-    this.setData({
-      mode,
-      statusTitle: mode === "adjustment" ? "正在调整结果" : "正在处理照片",
-      statusDesc: mode === "adjustment" ? "正在根据你的反馈优化结果，请稍等片刻。" : "正在根据你的选择准备处理结果，请稍等片刻。"
-    });
-
     const task = wx.getStorageSync("currentTask");
     if (!task) {
       wx.redirectTo({ url: "/pages/service/service" });
       return;
     }
 
-    setTimeout(() => {
+    this.setData({
+      mode,
+      task,
+      fileName: this.getFileName(task),
+      statusTitle: mode === "adjustment" ? "正在调整..." : "正在处理...",
+      statusDescLineOne: mode === "adjustment" ? "我们正在根据你的反馈重新优化结果" : "我们正在根据照片状态和你的补充需求进行处理",
+      statusDescLineTwo: mode === "adjustment" ? "会尽量保留你满意的部分" : "会优先保留人物特征",
+      progressSteps: this.getProgressSteps(mode)
+    });
+
+    this.processingTimer = setTimeout(() => {
       const nextTask = mode === "adjustment" ? completeAdjustment(task) : completeTask(task);
       wx.setStorageSync("currentTask", nextTask);
       wx.redirectTo({
         url: `/pages/result/result?mode=${mode === "adjustment" ? "adjusted" : "initial"}`
       });
-    }, 1200);
+    }, 3200);
+  },
+
+  onUnload() {
+    if (this.processingTimer) {
+      clearTimeout(this.processingTimer);
+      this.processingTimer = null;
+    }
+  },
+
+  getFileName(task) {
+    const names = {
+      old_photo_restoration: "家庭合影_1993.jpg",
+      black_white_colorization: "黑白合影_1988.jpg",
+      memorial_portrait: "纪念人像素材.jpg"
+    };
+
+    return names[task.serviceType] || "家庭照片.jpg";
+  },
+
+  getProgressSteps(mode) {
+    if (mode === "adjustment") {
+      return [
+        { name: "读取反馈需求", label: "已完成", state: "done" },
+        { name: "保留满意部分", label: "已完成", state: "done" },
+        { name: "生成调整任务", label: "已完成", state: "done" },
+        { name: "重新优化图像", label: "处理中", state: "active" },
+        { name: "整理调整结果", label: "等待中", state: "pending" }
+      ];
+    }
+
+    return [
+      { name: "检查照片质量", label: "已完成", state: "done" },
+      { name: "解析照片需求", label: "已完成", state: "done" },
+      { name: "生成处理任务", label: "已完成", state: "done" },
+      { name: "进行图像处理", label: "处理中", state: "active" },
+      { name: "整理处理结果", label: "等待中", state: "pending" }
+    ];
+  },
+
+  goBack() {
+    wx.navigateBack();
+  },
+
+  continueWaiting() {
+    wx.showToast({
+      title: "正在继续处理",
+      icon: "none"
+    });
+  },
+
+  viewLater() {
+    if (this.processingTimer) {
+      clearTimeout(this.processingTimer);
+      this.processingTimer = null;
+    }
+
+    wx.setStorageSync("pendingTask", this.data.task);
+    wx.showToast({
+      title: "已暂存当前任务",
+      icon: "none"
+    });
+
+    setTimeout(() => {
+      wx.reLaunch({
+        url: "/pages/home/home"
+      });
+    }, 600);
+  },
+
+  cancelTask() {
+    if (this.processingTimer) {
+      clearTimeout(this.processingTimer);
+      this.processingTimer = null;
+    }
+
+    wx.removeStorageSync("currentTask");
+    wx.reLaunch({
+      url: "/pages/home/home"
+    });
   }
 });
