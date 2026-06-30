@@ -5,9 +5,9 @@ const services = {
     shortName: "修复",
     description: "提升清晰度，减少划痕和破损，尽量保留照片原本的年代感。",
     tags: ["提高清晰度", "减少划痕", "修复破损", "保留年代感"],
-    beforeImage: "/assets/mock/old_before.png",
-    resultImage: "/assets/mock/old_after.png",
-    adjustedImage: "/assets/mock/old_after.png"
+    beforeImage: "/assets/mock/old_before.jpg",
+    resultImage: "/assets/mock/old_after.jpg",
+    adjustedImage: "/assets/mock/old_after.jpg"
   },
   black_white_colorization: {
     id: "black_white_colorization",
@@ -15,9 +15,9 @@ const services = {
     shortName: "上色",
     description: "为黑白照片补充自然色彩，让人物和场景更接近真实记忆。",
     tags: ["自然肤色", "柔和色彩", "保留光影", "不要过度鲜艳"],
-    beforeImage: "/assets/mock/color_before.png",
-    resultImage: "/assets/mock/color_after.png",
-    adjustedImage: "/assets/mock/color_after.png"
+    beforeImage: "/assets/mock/color_before.jpg",
+    resultImage: "/assets/mock/color_after.jpg",
+    adjustedImage: "/assets/mock/color_after.jpg"
   },
   memorial_portrait: {
     id: "memorial_portrait",
@@ -25,9 +25,9 @@ const services = {
     shortName: "纪念照",
     description: "基于家庭照片生成温暖、克制、适合保存和分享的纪念影像。",
     tags: ["温暖氛围", "自然表情", "家庭纪念", "简洁背景"],
-    beforeImage: "/assets/mock/memorial_before.png",
-    resultImage: "/assets/mock/memorial_after.png",
-    adjustedImage: "/assets/mock/memorial_after.png"
+    beforeImage: "/assets/mock/memorial_before.jpg",
+    resultImage: "/assets/mock/memorial_after.jpg",
+    adjustedImage: "/assets/mock/memorial_after.jpg"
   }
 };
 
@@ -69,6 +69,7 @@ function completeTask(task) {
   return {
     ...task,
     status: "completed",
+    completedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 }
@@ -102,6 +103,7 @@ function completeAdjustment(task) {
   return {
     ...task,
     status: "adjusted",
+    completedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 }

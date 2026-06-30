@@ -1,4 +1,5 @@
 const { getService, createTask } = require("../../utils/mock-data");
+const { createCloudTask } = require("../../utils/cloud-task");
 
 Page({
   data: {
@@ -18,6 +19,7 @@ Page({
     requirementCount: 0,
     authorizationConfirmed: false,
     canSubmit: false,
+    isSubmitting: false,
     validationStatus: "idle",
     validationMessage: ""
   },
@@ -223,7 +225,13 @@ Page({
   },
 
   submitTask() {
-    if (!this.data.canSubmit) return;
+    if (!this.data.canSubmit || this.data.isSubmitting) return;
+
+    this.setData({ isSubmitting: true });
+    wx.showLoading({
+      title: "正在提交",
+      mask: true
+    });
 
     const task = createTask({
       serviceType: this.data.serviceType,
@@ -233,9 +241,35 @@ Page({
       authorizationConfirmed: this.data.authorizationConfirmed
     });
 
-    wx.setStorageSync("currentTask", task);
-    wx.redirectTo({
-      url: "/pages/processing/processing?mode=initial"
+    createCloudTask({
+      serviceType: task.serviceType,
+      serviceName: task.serviceName,
+      originalImageUrl: task.originalImageUrl,
+      resultImageUrl: task.resultImageUrl,
+      adjustedImageUrl: task.adjustedImageUrl,
+      selectedOptions: task.selectedOptions,
+      customRequirement: task.customRequirement,
+      authorizationConfirmed: task.authorizationConfirmed,
+      validationStatus: this.data.validationStatus,
+      validationMessage: this.data.validationMessage
+    }).then((cloudTask) => {
+      if (cloudTask && cloudTask.taskId) {
+        task.cloudTaskId = cloudTask.taskId;
+        task.cloudStatus = cloudTask.status;
+        task.originalFileID = cloudTask.originalFileID;
+        task.originalImageUrl = cloudTask.originalImageUrl || task.originalImageUrl;
+        task.createdAt = cloudTask.createdAt || task.createdAt;
+        task.uploadedAt = cloudTask.uploadedAt || cloudTask.createdAt || task.createdAt;
+      }
+    }).catch((error) => {
+      console.warn("create cloud task failed, fallback to local mock task", error);
+    }).finally(() => {
+      wx.hideLoading();
+      this.setData({ isSubmitting: false });
+      wx.setStorageSync("currentTask", task);
+      wx.redirectTo({
+        url: "/pages/processing/processing?mode=initial"
+      });
     });
   }
 });

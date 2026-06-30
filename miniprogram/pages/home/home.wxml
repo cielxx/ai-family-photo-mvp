@@ -45,8 +45,8 @@
   </view>
 
   <view class="hero-preview">
-    <image class="hero-image hero-before" src="/assets/mock/old_before.png" mode="aspectFill" />
-    <image class="hero-image hero-after" src="/assets/mock/old_after.png" mode="aspectFill" />
+    <image class="hero-image hero-before" src="/assets/mock/old_before.jpg" mode="aspectFill" />
+    <image class="hero-image hero-after" src="/assets/mock/old_after.jpg" mode="aspectFill" />
     <view class="hero-label before">修复前</view>
     <view class="hero-label after">修复后</view>
   </view>

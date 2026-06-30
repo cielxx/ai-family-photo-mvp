@@ -93,6 +93,6 @@
     <view class="checkbox {{authorizationConfirmed ? 'checked' : ''}}"></view>
   </view>
 
-  <view wx:if="{{imageUrl}}" class="submit-button {{canSubmit ? '' : 'disabled'}}" bindtap="submitTask">{{validationStatus === 'fail' ? '更换照片后继续' : '开始处理'}}</view>
+  <view wx:if="{{imageUrl}}" class="submit-button {{canSubmit && !isSubmitting ? '' : 'disabled'}}" bindtap="submitTask">{{isSubmitting ? '正在提交' : validationStatus === 'fail' ? '更换照片后继续' : '开始处理'}}</view>
   <view wx:else class="submit-button disabled">上传后继续</view>
 </view>

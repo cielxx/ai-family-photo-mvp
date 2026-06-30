@@ -1,4 +1,5 @@
 const { completeTask, completeAdjustment } = require("../../utils/mock-data");
+const { formatClockTime } = require("../../utils/time");
 
 Page({
   data: {
@@ -27,6 +28,7 @@ Page({
       mode,
       task,
       fileName: this.getFileName(task),
+      uploadTime: formatClockTime(task.uploadedAt || task.createdAt),
       statusTitle: mode === "adjustment" ? "正在调整..." : "正在处理...",
       statusDescLineOne: mode === "adjustment" ? "我们正在根据你的反馈重新优化结果" : "我们正在根据照片状态和你的补充需求进行处理",
       statusDescLineTwo: mode === "adjustment" ? "会尽量保留你满意的部分" : "会优先保留人物特征",

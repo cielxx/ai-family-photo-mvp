@@ -1,4 +1,5 @@
 const { regenerateTask } = require("../../utils/mock-data");
+const { saveCloudTaskResult } = require("../../utils/cloud-task");
 
 Page({
   data: {
@@ -122,16 +123,48 @@ Page({
     wx.saveImageToPhotosAlbum({
       filePath: imagePath,
       success: () => {
-        this.setData({ isSaved: true });
+        this.markResultSaved();
         wx.showToast({ title: "已保存" });
       },
       fail: () => {
-        this.setData({ isSaved: true });
+        this.markResultSaved();
         wx.showToast({
           title: "已模拟保存",
           icon: "none"
         });
       }
+    });
+  },
+
+  markResultSaved() {
+    const savedAt = new Date().toISOString();
+    const nextTask = {
+      ...this.data.task,
+      status: "saved",
+      savedAt
+    };
+
+    this.setData({
+      isSaved: true,
+      task: nextTask
+    });
+    wx.setStorageSync("currentTask", nextTask);
+
+    saveCloudTaskResult({
+      taskId: nextTask.cloudTaskId,
+      resultType: this.data.isAdjusted ? "adjusted" : "initial"
+    }).then((result) => {
+      if (!result || !result.savedAt) return;
+
+      const syncedTask = {
+        ...nextTask,
+        savedAt: result.savedAt,
+        savedResultType: result.savedResultType
+      };
+      this.setData({ task: syncedTask });
+      wx.setStorageSync("currentTask", syncedTask);
+    }).catch((error) => {
+      console.warn("save cloud task result failed", error);
     });
   },
 
