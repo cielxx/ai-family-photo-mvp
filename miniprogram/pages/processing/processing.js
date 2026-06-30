@@ -1,4 +1,5 @@
 const { completeTask, completeAdjustment } = require("../../utils/mock-data");
+const { runDifyPlan } = require("../../utils/cloud-task");
 const { formatClockTime } = require("../../utils/time");
 
 Page({
@@ -35,13 +36,24 @@ Page({
       progressSteps: this.getProgressSteps(mode)
     });
 
-    this.processingTimer = setTimeout(() => {
-      const nextTask = mode === "adjustment" ? completeAdjustment(task) : completeTask(task);
+    const difyPlanPromise = mode === "initial" ? this.requestDifyPlan(task) : Promise.resolve();
+    const minimumWaitPromise = new Promise((resolve) => {
+      this.processingTimer = setTimeout(resolve, 3200);
+    });
+
+    Promise.all([
+      minimumWaitPromise,
+      difyPlanPromise.catch((error) => {
+        console.warn("run dify plan failed", error);
+      })
+    ]).then(() => {
+      const latestTask = wx.getStorageSync("currentTask") || this.data.task || task;
+      const nextTask = mode === "adjustment" ? completeAdjustment(latestTask) : completeTask(latestTask);
       wx.setStorageSync("currentTask", nextTask);
       wx.redirectTo({
         url: `/pages/result/result?mode=${mode === "adjustment" ? "adjusted" : "initial"}`
       });
-    }, 3200);
+    });
   },
 
   onUnload() {
@@ -79,6 +91,29 @@ Page({
       { name: "进行图像处理", label: "处理中", state: "active" },
       { name: "整理处理结果", label: "等待中", state: "pending" }
     ];
+  },
+
+  requestDifyPlan(task) {
+    if (!task.cloudTaskId) return;
+
+    return runDifyPlan({
+      taskId: task.cloudTaskId
+    }).then((result) => {
+      if (!result) return;
+
+      const latestTask = wx.getStorageSync("currentTask") || task;
+      const nextTask = {
+        ...latestTask,
+        cloudStatus: result.status || latestTask.cloudStatus,
+        taskCard: result.taskCard || latestTask.taskCard,
+        generatedPrompt: result.generatedPrompt || latestTask.generatedPrompt,
+        workflowRunId: result.workflowRunId || latestTask.workflowRunId,
+        difyErrorMessage: result.errorMessage || ""
+      };
+
+      wx.setStorageSync("currentTask", nextTask);
+      this.setData({ task: nextTask });
+    });
   },
 
   goBack() {

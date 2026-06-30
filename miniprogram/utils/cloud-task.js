@@ -70,7 +70,21 @@ function saveCloudTaskResult({ taskId, resultType }) {
   }).then((response) => response.result || null);
 }
 
+function runDifyPlan({ taskId }) {
+  if (!hasCloud() || !taskId) {
+    return Promise.resolve(null);
+  }
+
+  return wx.cloud.callFunction({
+    name: "runDifyPlan",
+    data: {
+      taskId
+    }
+  }).then((response) => response.result || null);
+}
+
 module.exports = {
   createCloudTask,
-  saveCloudTaskResult
+  saveCloudTaskResult,
+  runDifyPlan
 };
