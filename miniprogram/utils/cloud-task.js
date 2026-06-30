@@ -83,8 +83,28 @@ function runDifyPlan({ taskId }) {
   }).then((response) => response.result || null);
 }
 
+function runDifyAdjustment({
+  taskId,
+  issueTags,
+  adjustmentRequirement
+}) {
+  if (!hasCloud() || !taskId) {
+    return Promise.resolve(null);
+  }
+
+  return wx.cloud.callFunction({
+    name: "runDifyAdjustment",
+    data: {
+      taskId,
+      issueTags: issueTags || [],
+      adjustmentRequirement: adjustmentRequirement || ""
+    }
+  }).then((response) => response.result || null);
+}
+
 module.exports = {
   createCloudTask,
   saveCloudTaskResult,
-  runDifyPlan
+  runDifyPlan,
+  runDifyAdjustment
 };

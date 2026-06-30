@@ -1,5 +1,5 @@
 const { completeTask, completeAdjustment } = require("../../utils/mock-data");
-const { runDifyPlan } = require("../../utils/cloud-task");
+const { runDifyAdjustment, runDifyPlan } = require("../../utils/cloud-task");
 const { formatClockTime } = require("../../utils/time");
 
 Page({
@@ -36,15 +36,15 @@ Page({
       progressSteps: this.getProgressSteps(mode)
     });
 
-    const difyPlanPromise = mode === "initial" ? this.requestDifyPlan(task) : Promise.resolve();
+    const workflowPromise = this.requestWorkflowPlan(mode, task);
     const minimumWaitPromise = new Promise((resolve) => {
       this.processingTimer = setTimeout(resolve, 3200);
     });
 
     Promise.all([
       minimumWaitPromise,
-      difyPlanPromise.catch((error) => {
-        console.warn("run dify plan failed", error);
+      workflowPromise.catch((error) => {
+        console.warn("run workflow plan failed", error);
       })
     ]).then(() => {
       const latestTask = wx.getStorageSync("currentTask") || this.data.task || task;
@@ -93,8 +93,20 @@ Page({
     ];
   },
 
+  requestWorkflowPlan(mode, task) {
+    if (mode === "adjustment") {
+      return this.requestDifyAdjustment(task);
+    }
+
+    if (mode === "initial") {
+      return this.requestDifyPlan(task);
+    }
+
+    return Promise.resolve();
+  },
+
   requestDifyPlan(task) {
-    if (!task.cloudTaskId) return;
+    if (!task.cloudTaskId) return Promise.resolve();
 
     return runDifyPlan({
       taskId: task.cloudTaskId
@@ -109,6 +121,32 @@ Page({
         generatedPrompt: result.generatedPrompt || latestTask.generatedPrompt,
         workflowRunId: result.workflowRunId || latestTask.workflowRunId,
         difyErrorMessage: result.errorMessage || ""
+      };
+
+      wx.setStorageSync("currentTask", nextTask);
+      this.setData({ task: nextTask });
+    });
+  },
+
+  requestDifyAdjustment(task) {
+    if (!task.cloudTaskId) return Promise.resolve();
+
+    return runDifyAdjustment({
+      taskId: task.cloudTaskId,
+      issueTags: task.issueTags || [],
+      adjustmentRequirement: task.adjustmentRequirement || ""
+    }).then((result) => {
+      if (!result) return;
+
+      const latestTask = wx.getStorageSync("currentTask") || task;
+      const nextTask = {
+        ...latestTask,
+        cloudStatus: result.status || latestTask.cloudStatus,
+        cloudAdjustmentId: result.adjustmentId || latestTask.cloudAdjustmentId,
+        adjustmentTaskCard: result.adjustmentTaskCard || latestTask.adjustmentTaskCard,
+        secondRoundPrompt: result.secondRoundPrompt || latestTask.secondRoundPrompt,
+        adjustmentWorkflowRunId: result.workflowRunId || latestTask.adjustmentWorkflowRunId,
+        adjustmentErrorMessage: result.errorMessage || ""
       };
 
       wx.setStorageSync("currentTask", nextTask);
