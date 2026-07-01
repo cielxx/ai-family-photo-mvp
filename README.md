@@ -1,8 +1,8 @@
 # AI 家庭纪念影像助手
 
-微信小程序 MVP，用于验证家庭影像修复场景中的任务提交、AI 需求转译、结果确认与二次调整流程。
+微信小程序 MVP，面向家庭影像修复场景，覆盖任务提交、AI 需求转译、结果确认与二次调整流程。
 
-当前版本使用微信云开发保存任务与图片，通过 Dify Workflow 生成处理任务卡和图像 Prompt；图像结果暂使用 mock 示例图，后续可替换为真实图像处理 API。
+小程序使用微信云开发保存任务与图片，通过 Dify Workflow 生成处理任务卡和图像 Prompt；图像结果为 mock 示例图，后续可替换为真实图像处理 API。
 
 ## 功能
 
@@ -18,7 +18,7 @@
 - 微信小程序原生开发
 - 微信云开发：云函数、云数据库、云存储
 - Dify Workflow
-- Streamlit / Python：早期验证 Demo
+- Streamlit / Python：早期流程原型
 
 ## 截图
 
@@ -64,7 +64,7 @@ DIFY_ADJUSTMENT_API_KEY
 DIFY_ADJUSTMENT_WORKFLOW_URL
 ```
 
-### Streamlit Demo
+### Streamlit 原型
 
 ```bash
 pip install -r requirements.txt
@@ -73,16 +73,16 @@ streamlit run app.py
  
 ## 边界
 
-- 未接入真实图像处理 API
-- 未包含支付、订单、后台管理
-- 图像结果仍为 mock 示例图
-- Workflow 输出主要用于任务规划和后续图像处理指令生成
+- 真实图像处理 API 为后续扩展项
+- 支付、订单、后台管理不在当前范围
+- 图像结果为 mock 示例图
+- Workflow 输出用于任务规划和后续图像处理指令生成
 
 ## 文档
 
-- [微信小程序云开发 MVP 说明](docs/MINIPROGRAM_CLOUD_MVP.md)
-- [AI Workflow 设计](docs/AI_WORKFLOW_DESIGN.md)
-- [项目总结](docs/PROJECT_SUMMARY.md)
+- [微信小程序云开发 MVP 说明](./docs/MINIPROGRAM_CLOUD_MVP.md)
+- [AI Workflow 设计](./docs/AI_WORKFLOW_DESIGN.md)
+- [项目总结](./docs/PROJECT_SUMMARY.md)
 
 ## 安全
 
